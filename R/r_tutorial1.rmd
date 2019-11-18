@@ -1,0 +1,67 @@
+```{r}
+#data(titanic_train)
+#install.packages('titanic')
+library(tidyverse)
+library(titanic)
+d=titanic_train
+install.packages('gapminder')
+library(gapminder)
+d=gapminder
+d$gdpcap = log2(d$gdpPercap)
+```
+
+# linear regression as glm: lifeexp vs gdpcapita
+```{r}
+m2 = glm(lifeExp ~ gdpcap, data=d, family=gaussian)
+summary(m2)
+```
+# linear regression
+```{r}
+m3= lm(lifeExp ~ gdpPercap, data=d)
+summary(m3)
+#plot(lifeExp ~ gdpPercap, data=d)
+```
+
+# Visualize data
+```{r}
+ggplot(d, aes(gdpcap,lifeExp) ) + geom_point()
+```
+# Visualize data
+```{r}
+ggplot(d, aes(x=gdpcap,y=lifeExp,color=pop) ) + geom_point() + facet_wrap(~continent)
+```
+# ANOVA 
+```{r}
+av= aov(lifeExp ~ gdpcap, data=d)        
+summary(av)
+```
+
+# ANOVA 
+```{r}
+av= aov(lifeExp ~ continent, data=d)        
+summary(av)
+```
+
+# ANOVA 
+```{r}
+av= aov(lifeExp ~ country, data=d)        
+summary(av)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

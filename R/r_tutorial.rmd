@@ -1,0 +1,141 @@
+```{r}
+#data(titanic_train)
+#install.packages('titanic')
+library(tidyverse)
+library(titanic)
+d=titanic_train
+```
+
+```{r}
+male = d %>% filter(Sex=='male')
+female = d %>% filter(Sex=='female')
+d$surv=factor(d$Survived)
+d$sex=factor(d$Sex)
+```
+
+
+```{r}
+
+ggplot(d, aes( x=Sex, y=Age, color=factor(Survived) ) )+ geom_jitter() 
+```
+```{r}
+t.test(male$Survived,female$Survived)
+```
+```{r}
+#?chisq.test(male$Survived,female$Survived)
+```
+
+
+```{r}
+ggplot(d, aes(Age))+ geom_histogram() 
+
+```
+
+```{r}
+ggplot(d, aes(Age))+ geom_histogram() + facet_grid(~Sex)
+```
+
+```{r}
+ggplot(d, aes(Sex, Age))+ geom_boxplot()
+```
+```{r}
+ggplot(d, aes(Sex, Age))+ geom_violin()
+```
+
+```{r}
+summary(d)
+```
+
+```{r}
+t.test(male$Age, female$Age)
+
+```
+
+```{r}
+wilcox.test(male$Age, female$Age)
+```
+
+```{r}
+ks.test(male$Age, female$Age)
+```
+
+```{r}
+m0 = glm(surv ~ sex, data=d, family=binomial)
+summary(m0)
+```
+
+```{r}
+m0 = glm(Survived ~ Parch, data=d, family=binomial)
+summary(m0)
+```
+
+
+# logistic regression of Sex
+```{r}
+m = glm(Survived ~ Sex, data=d, family=binomial)
+summary(m)
+# coef in log scale
+coef(m)
+# odds ratio, 0.08 for male
+exp(coef(m))
+#plot(m)
+```
+
+# logistic regression of age
+```{r}
+m1 = glm(Survived ~ Age, data=d, family=binomial)
+summary(m1)
+```
+
+# linear regression as glm: Sex
+```{r}
+m2 = glm(Survived ~ Sex, data=d, family=gaussian)
+summary(m2)
+```
+# linear regression: Sex 
+```{r}
+m3= lm(Survived ~ Sex, data=d)
+summary(m3)
+```
+
+# linear regression: Age
+```{r}
+m4= lm(Survived ~ Age, data=d)
+summary(m4)
+```
+
+# Visualize data
+```{r}
+ggplot(d, aes(Sex,Survived) ) + geom_jitter()
+summary(as.factor(d$Sex))
+```
+
+# ANOVA Sex
+```{r}
+av= aov(Survived ~ Sex, data=d)        
+summary(av)
+```
+
+# ANOVA Age
+```{r}
+av1= aov(Survived ~ Age, data=d)        
+summary(av1)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
